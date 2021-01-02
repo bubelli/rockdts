@@ -149,6 +149,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1932095486
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932095483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &261188563765245193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -243,12 +256,7 @@ PrefabInstance:
     - target: {fileID: 2664186765046702683, guid: 6a1d715e37caabe42968af3d5c0be673,
         type: 3}
       propertyPath: m_Name
-      value: Cube
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688571781770391286, guid: 6a1d715e37caabe42968af3d5c0be673,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
+      value: Platform
       objectReference: {fileID: 0}
     - target: {fileID: 6401650036929913884, guid: 6a1d715e37caabe42968af3d5c0be673,
         type: 3}
@@ -462,6 +470,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1092883444781415324, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1631245255729183482, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
         type: 3}
       propertyPath: m_Enabled
@@ -475,7 +488,7 @@ PrefabInstance:
     - target: {fileID: 1690731291143558225, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 7.25
       objectReference: {fileID: 0}
     - target: {fileID: 1690731291143558225, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
         type: 3}
@@ -562,10 +575,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket ship
       objectReference: {fileID: 0}
+    - target: {fileID: 3024730672289245662, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5045090346623437431, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6012285323624897631, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6419241217299936207, guid: 5a5f68b96914ef54b94a17bca0ed7c83,
         type: 3}
