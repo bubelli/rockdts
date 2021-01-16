@@ -4,36 +4,74 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-    Rigidbody rigidbody;
-    bool RotatingLeft = false;
-    bool RotatingRight = false;
+    [SerializeField] float rcsThrust = 150f;
+    [SerializeField] float mainThrust = 1300f;
+    AudioSource audioSource;
+    Rigidbody rigidbody; 
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+        
     }
     void Update()
     {
-        ProcessInput();
+        Rotate();
+        Thrust();
     }
-    void ProcessInput()
+    void Thrust()
     {
+        float ThrustThisFrame = mainThrust * Time.deltaTime;
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidbody.AddRelativeForce(Vector3.up);
-            print("Thrust");
+            rigidbody.AddRelativeForce(Vector3.up * ThrustThisFrame);
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
         }
-        if (Input.GetKey(KeyCode.A) && RotatingRight == false)
+        else
         {
-
-            transform.Rotate(Vector3.forward * 0.2f);
-
+            audioSource.Stop();
         }
-        else if (Input.GetKey(KeyCode.D) && RotatingLeft == false)
+    }
+    void Rotate()
+    {
+       
+        rigidbody.freezeRotation = true;
+        float RotationThisFrame = rcsThrust * Time.deltaTime;
+        if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(-Vector3.forward * 0.2f);
-            RotatingRight = true;
+            
+            transform.Rotate(Vector3.forward * RotationThisFrame );
         }
-        RotatingLeft = false;
-        RotatingRight = false;
+        else if (Input.GetKey(KeyCode.D))
+        {
+            
+            transform.Rotate(-Vector3.forward * RotationThisFrame);            
+        }
+        rigidbody.freezeRotation = false;
+
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "friendly":
+                //do nothing
+                print("OK");
+                break;
+            case "fuel":
+                print("fuel");
+                //for future
+                break;
+            case "WinnerPlatform":
+                print("won");
+                break;
+            default:
+                print("boom");
+                // player dead
+                break;
+        }
     }
 }
