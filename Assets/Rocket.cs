@@ -15,9 +15,14 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] float rcsThrust = 150f;
     [SerializeField] float mainThrust = 1300f;
+    [SerializeField] float levelLoadDelay = 1f;
+    [SerializeField] float deathDelay = 1f;
 
+    int nextSceneIndex;
+    int currentSceneIndex;  
     AudioSource audioSource;
     Rigidbody rigidbody;
+    bool toggleCollisionDetection = false;
     enum State { Alive, Dying, Transending }
     State state = State.Alive;
 
@@ -28,15 +33,35 @@ public class Rocket : MonoBehaviour
     }
     void Update()
     {
+       
         if (state == State.Alive)
         {
             RespondToRotateInput();
             RespondToThrustInput();
         }
+        if (Debug.isDebugBuild)
+        {
+            RespondToDebugKeys();
+        }
     }
+
+    private void RespondToDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.F)) { LoadingNewLevel(); }
+        if (Input.GetKeyDown(KeyCode.C) && toggleCollisionDetection == false)
+        {
+            toggleCollisionDetection = true;
+        } else if (Input.GetKeyDown(KeyCode.C))
+        {
+            toggleCollisionDetection = false;
+        }
+        
+        
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive)   {  return; }
+        if (state != State.Alive || toggleCollisionDetection) {  return; }
 
         switch (collision.gameObject.tag)
         {
@@ -50,28 +75,39 @@ public class Rocket : MonoBehaviour
                 state = State.Transending;
                 audioSource.PlayOneShot(success);
                 successParticles.Play();
-                Invoke("LoadingNewLevel", 1f);
+                Invoke("LoadingNewLevel", levelLoadDelay);
                 break;
             default:
                 audioSource.Stop();
                 state = State.Dying;
                 audioSource.PlayOneShot(death);
                 deathParticles.Play();
-                Invoke("Dying", 1f);
+                Invoke("Dying", deathDelay);
                 break;
         }
-
     }
     void Dying()
     {
 
-        SceneManager.LoadScene(0);
-        
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        nextSceneIndex = currentSceneIndex;
+        SceneManager.LoadScene(nextSceneIndex);
+
     }
     void LoadingNewLevel()
     {
-        SceneManager.LoadScene(1);
         
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex == 6)
+        {
+            nextSceneIndex = 0;
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            nextSceneIndex = currentSceneIndex + 1;
+            SceneManager.LoadScene(nextSceneIndex);
+        }
     }
     void RespondToThrustInput()
     {
